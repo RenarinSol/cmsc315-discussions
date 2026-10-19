@@ -116,4 +116,4 @@ Encapsulation makes code maintainable. Each class owns its data and behavior, so
 
 ## How to Run
 
-Right-click `unit1_oop.py` in IntelliJ and select Run, or run `python3 unit1_oop.py` in a terminal.
+Right-click `unit1_discussion.py` in IntelliJ and select Run, or run `python3 unit1_discussion.py` in a terminal.
