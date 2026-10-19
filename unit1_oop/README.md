@@ -6,11 +6,11 @@ This assignment explores object-oriented programming (OOP) concepts in Python, i
 
 ## Learning Objectives
 
-* Create parent and child classes
-* Use inheritance to extend functionality
-* Understand class and instance namespaces
-* Demonstrate shallow and deep copying
-* Apply object-oriented design principles
+- Create parent and child classes
+- Use inheritance to extend functionality
+- Understand class and instance namespaces
+- Demonstrate shallow and deep copying
+- Apply object-oriented design principles
 
 ## Requirements
 
@@ -42,57 +42,57 @@ I built a small homelab inventory program to demonstrate basic OOP concepts. I c
 
 **Device (parent class)**
 
-* Class variable: `network\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\_name`. Every device shares it.
-* Instance variables: `hostname` and `ip\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\_address`. Each device gets its own.
-* The constructor rejects an empty hostname or IP address.
-* `describe()` returns a one-line summary of the device.
+- Class variable: `network_name`. Every device shares it.
+- Instance variables: `hostname` and `ip_address`. Each device gets its own.
+- The constructor rejects an empty hostname or IP address.
+- `describe()` returns a one-line summary of the device.
 
 **Server (child class)**
 
-* Inherits from `Device`.
-* Adds two class variables, `device\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\_type` and `max\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\_services`, and two instance variables, `os\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\_name` and `services`.
-* Uses `super().\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\_\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\_init\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\_\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\_()` so `Device` sets up the hostname and IP. This kept me from rewriting the parent's setup code.
-* `services` starts as a new empty list inside `\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\_\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\_init\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\_\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\_`, so each server gets its own list instead of sharing one.
-* Adds a new method, `add\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\_service()`, which stores each service as a dictionary with a name and port.
-* Overrides `describe()`. It calls the parent's version first, then adds the OS and services.
+- Inherits from `Device`.
+- Adds two class variables, `device_type` and `max_services`, and two instance variables, `os_name` and `services`.
+- Uses `super().__init__()` so `Device` sets up the hostname and IP. This kept me from rewriting the parent's setup code.
+- `services` starts as a new empty list inside `__init__`, so each server gets its own list instead of sharing one.
+- Adds a new method, `add_service()`, which stores each service as a dictionary with a name and port.
+- Overrides `describe()`. It calls the parent's version first, then adds the OS and services.
 
 ## Namespaces
 
 I created two servers, `web01` and `db01`. The output showed:
 
-* Reading `device\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\_type` through the `Server` class and through `web01` both returned "server." `web01` doesn't have its own copy, so Python found it on the class.
-* I added `rack\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\_location` to only `web01`. It showed up in `web01.\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\_\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\_dict\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\_\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\_` but not in `db01.\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\_\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\_dict\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\_\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\_`.
-* Each object's `\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\_\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\_dict\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\_\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\_` only held its own instance variables. Class variables were not there because they live on the class.
-* `network\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\_name` was not in `Server.\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\_\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\_dict\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\_\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\_` because it is defined on `Device`. `web01.network\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\_name` still worked because Python searches the object, then `Server`, then `Device`.
-* When I set `web01.device\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\_type = "vm"`, it created a new instance variable on `web01` only. `db01` and the `Server` class still showed "server." This is called shadowing.
+- Reading `device_type` through the `Server` class and through `web01` both returned "server." `web01` doesn't have its own copy, so Python found it on the class.
+- I added `rack_location` to only `web01`. It showed up in `web01.__dict__` but not in `db01.__dict__`.
+- Each object's `__dict__` only held its own instance variables. Class variables were not there because they live on the class.
+- `network_name` was not in `Server.__dict__` because it is defined on `Device`. `web01.network_name` still worked because Python searches the object, then `Server`, then `Device`.
+- When I set `web01.device_type = "vm"`, it created a new instance variable on `web01` only. `db01` and the `Server` class still showed "server." This is called shadowing.
 
 ## Shallow vs. Deep Copy
 
 I created a server named `app01` with two services (nginx on port 80 and ssh on port 22), then made a shallow copy and a deep copy. After that, I changed nginx's port to 8080 on the original and added a postgres service.
 
-* The original showed both changes.
-* The shallow copy also showed both changes. A shallow copy is a new object, but it still shares the same inner list as the original.
-* The deep copy still showed nginx on port 80 and only two services, because a deep copy makes its own copies of every nested list and dictionary.
-* I used the `is` operator to prove it: the shallow copy shared the original's exact list (`True`) and the deep copy did not (`False`).
-* Changing the shallow copy's hostname did not affect the original. That replaces the value instead of changing a shared object.
+- The original showed both changes.
+- The shallow copy also showed both changes. A shallow copy is a new object, but it still shares the same inner list as the original.
+- The deep copy still showed nginx on port 80 and only two services, because a deep copy makes its own copies of every nested list and dictionary.
+- I used the `is` operator to prove it: the shallow copy shared the original's exact list (`True`) and the deep copy did not (`False`).
+- Changing the shallow copy's hostname did not affect the original. That replaces the value instead of changing a shared object.
 
 ## Student Extension
 
 None of the TODOs asked for these, but I added:
 
-* Validation in `add\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\_service()` that rejects an empty name, a port outside 1–65535, a port already in use, and more than 10 services.
-* `\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\_\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\_repr\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\_\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\_`, which gives a readable developer view like `Device(hostname='switch01', ip\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\_address='10.0.0.2')`.
-* `\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\_\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\_len\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\_\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\_`, so `len(server)` returns how many services it runs.
+- Validation in `add_service()` that rejects an empty name, a port outside 1–65535, a port already in use, and more than 10 services.
+- `__repr__`, which gives a readable developer view like `Device(hostname='switch01', ip_address='10.0.0.2')`.
+- `__len__`, so `len(server)` returns how many services it runs.
 
 ## Edge Cases
 
 Each of these raises a `ValueError`. I caught them with try/except, so the program prints why the input was rejected instead of crashing.
 
-* Empty service name
-* Port 70000 (outside the valid range)
-* Port 445 used twice on the same server
-* Empty hostname, or an IP address that is only spaces
-* An 11th service on a server that already has 10
+- Empty service name
+- Port 70000 (outside the valid range)
+- Port 445 used twice on the same server
+- Empty hostname, or an IP address that is only spaces
+- An 11th service on a server that already has 10
 
 A server with no services is also handled: `describe()` prints "services: none" instead of an empty list.
 
@@ -116,5 +116,4 @@ Encapsulation makes code maintainable. Each class owns its data and behavior, so
 
 ## How to Run
 
-python unit1\_discussion.py
-
+Right-click `unit1_oop.py` in IntelliJ and select Run, or run `python3 unit1_oop.py` in a terminal.
