@@ -46,6 +46,15 @@ def update_member(roster, name, field, value):
     roster[key][field] = value
     return True
 
+def try_insert(table, key, value):
+    """Try to add a key and report whether Python accepted it."""
+    # The key's type isn't known here, so IntelliJ doesn't flag a list
+    # passed in. Python still checks it when the line runs.
+    try:
+        table[key] = value
+        return "accepted"
+    except TypeError as err:
+        return f"rejected with TypeError ({err})"
 
 class ChainedHashTable:
     """
@@ -272,11 +281,11 @@ def main():
           f"pop -> {empty.pop('jaina', None)}, size {len(empty)}")
 
     # 6. Unhashable key: a list can change after it's stored, so its hash
-    #    could change too. Python refuses it as a key.
-    try:
-        roster[["thrall", "jaina"]] = "party"
-    except TypeError as err:
-        print(f"6. List as a key: rejected with TypeError ({err})")
+    #    could change too. Python refuses it as a key. A tuple can't
+    #    change, so the same names work as a tuple key.
+    parties = {}
+    print(f"6. List as a key: {try_insert(parties, ['thrall', 'jaina'], 'party')}. "
+          f"Tuple as a key: {try_insert(parties, ('thrall', 'jaina'), 'party')}")
 
     demonstrate_collisions()
 

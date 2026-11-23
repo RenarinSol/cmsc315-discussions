@@ -33,7 +33,7 @@ Your reflection should be approximately 150–200 words and address the followin
 
 ## Implementation Summary
 
-I kept the World of Warcraft theme from last week and built a guild roster. Each key was a character name, and each value held the member's class and guild rank.
+I kept the World of Warcraft theme from Unit 5 and built a guild roster. Each key was a character name, and each value held the member's class and guild rank.
 
 ## Design Approach
 
@@ -74,4 +74,5 @@ My biggest challenge was that Python's `dict` hides collisions, so there was not
 
 How hash tables behave
 
-A hash table turns a key into a slot number and stores the value there, so lookups stay close to O(1) no matter how big the table gets. A collision is when two keys land in the same slot, and each collision adds a comparison. 
+A hash table turns a key into a slot number and stores the value there, so lookups stay close to O(1) no matter how big the table gets. A collision is when two keys land in the same slot, and each collision adds a comparison. Keeping the load factor low by resizing keeps those chains short.
+
